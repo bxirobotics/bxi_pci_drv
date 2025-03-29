@@ -1,6 +1,11 @@
 #ifndef _BXI_PCI_DRV_H
 #define _BXI_PCI_DRV_H
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 #define CAN_MAX_DLC     8
 
 typedef struct
@@ -26,5 +31,9 @@ int motor_pwr_set(unsigned int pwr);
 int motor_pwr_get();
 int fan_pwr_set(unsigned int pwr);
 int led_rgb_set(unsigned int rgb);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif
