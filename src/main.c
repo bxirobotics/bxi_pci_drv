@@ -43,27 +43,43 @@ int main(){
     sleep(1);
 
     //motor test
-    printf("motor power states: %d\n", motor_pwr_get());
     motor_pwr_set(1);
     printf("motor power on\n");
     sleep(1); //wait for soft start
-    printf("motor power states: %d\n", motor_pwr_get());
+
+    //remote emergency stop test
+    for (size_t i = 10; i > 0; i--)
+    {
+        printf("Please press the remote emergency stop, wait %ld s.\n", i);
+        if (0 == motor_pwr_get())
+        {
+            printf("successful\n");
+            break;
+        }
+        sleep(1);
+    }
+    
     motor_pwr_set(0);
     printf("motor power off\n");
 
+    //connect can0 to canXX
     //can test
-    #define MSG_NUM 10
-    can_packet msg[MSG_NUM];
-    for (size_t i = 0; i < MSG_NUM; i++){
-        msg[i].bus = 0;
-        msg[i].frame.can_id = i;
-        msg[i].frame.can_dlc = 8;
-        for (size_t j = 0; j < 8; j++){
-            msg[i].frame.data[j] = j;
+    for (size_t i = 0; i < 1000; i++)
+    {
+        #define MSG_NUM 5
+        can_packet msg[MSG_NUM];
+        for (size_t i = 0; i < MSG_NUM; i++){
+            msg[i].bus = 0;
+            msg[i].frame.can_id = i;
+            msg[i].frame.can_dlc = 8;
+            for (size_t j = 0; j < 8; j++){
+                msg[i].frame.data[j] = j;
+            }
         }
+        can_send_pack(msg, MSG_NUM);
+        sleep(1);
     }
-    can_send_pack(msg, MSG_NUM);
-    sleep(1);
+    
     bxi_pci_exit();
 
     return 0;
