@@ -23,6 +23,14 @@ typedef struct
 
 typedef int (*can_rx_call)(unsigned bus, void *arg, can_frame *msg);
 
+/**
+ * @brief bxi_pci_init
+ * 
+ * @param func can消息接收回调函数
+ * @param arg 用户自定义参数
+ * @param cpu cpu亲和性设置，-1 禁用，[0...ncores] 将消息接收函数绑定到指定cpu核
+ * @return -1 失败
+ */
 int bxi_pci_init(can_rx_call func, void *arg, int cpu);
 int can_send_pack(can_packet *pack, unsigned int num);
 int bxi_pci_exit();
