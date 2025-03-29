@@ -21,14 +21,17 @@ int main(){
     }
 
     //RGB test
-    led_rgb_set(1 << 0);
+    led_rgb_set(LED_R);
     printf("led red on\n");
     sleep(1);
-    led_rgb_set(1 << 1);
+    led_rgb_set(LED_G);
     printf("led green on\n");
     sleep(1);
-    led_rgb_set(1 << 2);
+    led_rgb_set(LED_B);
     printf("led blue on\n");
+    sleep(1);
+    led_rgb_set(LED_R|LED_G|LED_B);
+    printf("led rgb on\n");
     sleep(1);
     led_rgb_set(0);
     printf("led off\n");

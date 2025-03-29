@@ -27,6 +27,10 @@ int bxi_pci_init(can_rx_call func, void *arg, int cpu);
 int can_send_pack(can_packet *pack, unsigned int num);
 int bxi_pci_exit();
 
+#define LED_R (1<<0)
+#define LED_G (1<<1)
+#define LED_B (1<<2)
+
 int motor_pwr_set(unsigned int pwr);
 int motor_pwr_get();
 int fan_pwr_set(unsigned int pwr);
