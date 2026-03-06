@@ -1,38 +1,34 @@
 #ifndef _BXI_PCI_DRV_H
 #define _BXI_PCI_DRV_H
 
+#include <linux/can.h>
+
 #ifdef __cplusplus
 extern "C"
 {
 #endif
 
-#define CAN_MAX_DLC     8
-
-typedef struct
-{
-    unsigned int can_id;
-    unsigned int can_dlc;
-    unsigned char data[CAN_MAX_DLC];
-}can_frame  __attribute__((__aligned__(1)));
+#define CANFD_DEVICE_NUM 5
 
 typedef struct
 {
     unsigned int bus;
-    can_frame frame;
-}can_packet __attribute__((__aligned__(1)));
+    struct canfd_frame frame;
+}canfd_packet __attribute__((__aligned__(8)));
 
-typedef int (*can_rx_call)(unsigned bus, void *arg, can_frame *msg);
+typedef int (*canfd_rx_call)(void *arg, canfd_packet *msg);
+typedef int (*canfd_event_call)(void *arg, int event); //TODO:event call(e.g.:tx failed)
 
 /**
  * @brief bxi_pci_init
  * 
- * @param func can消息接收回调函数
- * @param arg 用户自定义参数
- * @param cpu cpu亲和性设置，-1 禁用，[0...ncores] 将消息接收函数绑定到指定cpu核
- * @return -1 失败
+ * @param func canfd recv call func
+ * @param arg user args
+ * @param cpu [0...ncores], CPU affinity settings for the CANFD receiver function, -1 disable
+ * @return -1 failed
  */
-int bxi_pci_init(can_rx_call func, void *arg, int cpu);
-int can_send_pack(can_packet *pack, unsigned int num);
+int bxi_pci_init(canfd_rx_call func, void *arg, int cpu);
+int canfd_send_packet(canfd_packet *packet, unsigned int num);
 int bxi_pci_exit();
 
 #define LED_R (1<<0)

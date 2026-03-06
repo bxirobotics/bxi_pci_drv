@@ -3,12 +3,12 @@
 
 #include "bxi_pci_drv.h"
 
-int can_rx_call_test(unsigned int bus, void *arg, can_frame *msg){
-    printf("can[%d] recv, id:%d, dlc:%d, data:", bus, msg->can_id, msg->can_dlc);
+int can_rx_call_test(void *arg, canfd_packet *msg){
+    printf("can[%d] recv, id:%d, dlc:%d, data:", msg->bus, msg->frame.can_id, msg->frame.len);
 
-    for (size_t i = 0; i < msg->can_dlc; i++){
-        printf("0x%x ", msg->data[i]);
-    }
+    // for (size_t i = 0; i < msg->can_dlc; i++){
+    //     printf("0x%x ", msg->data[i]);
+    // }
     printf("\n");
 
     return 0;
@@ -70,16 +70,16 @@ int main(){
     for (size_t i = 0; i < 1000; i++)
     {
         #define MSG_NUM 5
-        can_packet msg[MSG_NUM];
+        canfd_packet msg[MSG_NUM];
         for (size_t i = 0; i < MSG_NUM; i++){
             msg[i].bus = 0;
             msg[i].frame.can_id = i;
-            msg[i].frame.can_dlc = 8;
+            msg[i].frame.len = 8;
             for (size_t j = 0; j < 8; j++){
                 msg[i].frame.data[j] = j;
             }
         }
-        can_send_pack(msg, MSG_NUM);
+        canfd_send_packet(msg, MSG_NUM);
         sleep(1);
     }
     
