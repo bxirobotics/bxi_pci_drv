@@ -2,4 +2,4 @@
 * `cd bxi_pci_drv`
 * `make`
 * `sudo ./build/motor_test` for motor latency test
-* `sudo ./build/bxi_pci_drv_test` for drv test
+* `sudo ./build/drv_test` for drv test

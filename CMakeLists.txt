@@ -9,10 +9,10 @@ aux_source_directory(./src DIR_SRC)
 
 set(BXI_PCI_CTL_LIB "${CMAKE_SOURCE_DIR}/lib/libbxi_pci_drv.a")
 
-add_executable(${PROJECT_NAME} ./src/main.c)
+add_executable(drv_test ./src/drv_test.c)
 add_executable(motor_test ./src/motor_test.c)
 
-target_link_libraries(${PROJECT_NAME}
+target_link_libraries(drv_test
   PRIVATE
   pthread
   "${BXI_PCI_CTL_LIB}"  # 直接链接库的绝对路径
@@ -24,6 +24,10 @@ target_link_libraries(motor_test
   "${BXI_PCI_CTL_LIB}"  # 直接链接库的绝对路径
 )
 
-set_property(TARGET ${PROJECT_NAME} APPEND PROPERTY
+set_property(TARGET drv_test APPEND PROPERTY
+  OBJECT_DEPENDS "${BXI_PCI_CTL_LIB}"
+)
+
+set_property(TARGET motor_test APPEND PROPERTY
   OBJECT_DEPENDS "${BXI_PCI_CTL_LIB}"
 )
