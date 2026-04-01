@@ -75,6 +75,7 @@ int main(){
             msg[i].bus = 0;
             msg[i].frame.can_id = i;
             msg[i].frame.len = 8;
+            msg[i].frame.flags = CANFD_BRS|CANFD_FDF; //CANFD with BRS(1M+5M)
             for (size_t j = 0; j < 8; j++){
                 msg[i].frame.data[j] = j;
             }

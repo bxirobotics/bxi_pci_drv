@@ -56,6 +56,7 @@ int main(){
         msg[0].bus = 0;
         msg[0].frame.can_id = 1;
         msg[0].frame.len = 8;
+        msg[0].frame.flags = CANFD_BRS|CANFD_FDF; //CANFD with BRS(1M+5M)
 
         //MIT protocol: exit motor mode
         msg[0].frame.data[0] = 0xFF;
