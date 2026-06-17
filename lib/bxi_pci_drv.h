@@ -8,7 +8,7 @@ extern "C"
 {
 #endif
 
-#define CANFD_DEVICE_NUM 5
+#define CANFD_DEVICE_NUM 7
 
 typedef struct
 {
